@@ -1,4 +1,4 @@
-FROM docker-proxy.backbase.eu/dockerhub/library/archlinux:latest
+FROM archlinux:latest
 
 RUN pacman -Syq --noconfirm yq jq aws-cli kubectl fluxctl sed coreutils sops
 RUN useradd cicd
