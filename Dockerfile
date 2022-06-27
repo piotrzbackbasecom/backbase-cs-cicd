@@ -1,11 +1,10 @@
 FROM archlinux:latest
 
 RUN pacman -Syq --noconfirm yq jq aws-cli kubectl fluxctl sed coreutils sops github-cli nodejs-lts-gallium npm yarn
-RUN useradd -m cicd
-# Uncomment next 2 lines if we happen to need sudo afterall (we shouldn't need that)
-# RUN pacman -Syq --noconfirm sudo
-# RUN echo "cicd ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/cicd
+RUN npm i postman-to-openapi
+RUN npm i postman-to-openapi -g
 
+RUN useradd -m cicd
 USER cicd
 
 CMD [ "/bin/bash" ]
