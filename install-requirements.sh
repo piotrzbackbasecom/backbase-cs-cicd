@@ -2,54 +2,32 @@
 set -u
 
 function install_brew() { NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; }
+function message_brew() { echo -e "https://docs.brew.sh/Installation"; }
 function install_gh() { /bin/bash -c "brew install gh"; }
+function message_gh() { echo -e "MacOS/Windows: https://github.com/cli/cli#installation\nLinux: https://github.com/cli/cli/blob/trunk/docs/install_linux.md"; }
 function install_colima() { /bin/bash -c "brew install colima"; }
+function message_colima() { echo -e "https://github.com/abiosoft/colima"; }
 
-# brew will be used for installing stuff, check if installed
-if ! type brew >/dev/null 2>&1 ; then
-    echo "brew is needed, we'll try to install it automatically,
-        if it fails try to install manually using steps described: 
-        https://docs.brew.sh/Installation"
-    if ! install_brew >/dev/null 2>&1 ; then
-        echo "There was an issue while installing Homebrew."
-        exit 1
-    else
-        echo "Homebrew installation succesful"
-    fi
-    else
-        echo "OK - Homebrew present."
-fi
 
-# Github CLI is used, check if installed
-if ! type gh >/dev/null 2>&1 ; then
-    echo "Github CLI is needed, we'll try to install it automatically,
-        if it fails try to install manually using steps described: 
-        MacOS/Windows: https://github.com/cli/cli#installation
-        Linux: https://github.com/cli/cli/blob/trunk/docs/install_linux.md"
-    if ! install_gh >/dev/null 2>&1 ; then
-        echo "There was an issue while installing Github CLI."
-        exit 1
-    else
-        echo "Github CLI installation succesful"
+function check_and_install() {
+    if ! type $1 >/dev/null 2>&1; then
+        echo -e "\n-------------------------------\n$1 is needed, we'll try to install it automatically,\nif it fails try to install manually using steps described at :"
+        message_$1;
+        echo -e "\n-------------------------------"
+        if ! install_$1 >/dev/null 2>&1; then
+            echo "There was an issue while installing $1"
+            exit 1
+        else
+            echo "$1 installation succesful"
+        fi
+        else   
+            echo "OK - $1 present."
     fi
-    else 
-        echo "OK - Github CLI present."
-fi
+}
 
-# Colima for running containers will be used, check if installed
-if ! type colima >/dev/null 2>&1 ; then
-    echo "Colima is needed, we'll try to install it automatically,
-        if it fails try to install manually using steps described: 
-        https://github.com/abiosoft/colima"
-    if ! install_colima >/dev/null 2>&1 ; then
-        echo "There was an issue while installing Colima."
-        exit 1
-    else
-        echo "Colima installation succesful"
-    fi
-    else
-        echo "OK - Colima present."
-fi
+check_and_install "brew";
+check_and_install "gh";
+check_and_install "colima";
 
 
 # run  -it \
