@@ -10,11 +10,11 @@ function message_colima() { echo -e "https://github.com/abiosoft/colima"; }
 
 
 function check_and_install() {
-    if ! type $1 >/dev/null 2>&1; then
+    if ! type "$1" >/dev/null 2>&1; then
         echo -e "\n-------------------------------\n$1 is needed, we'll try to install it automatically,\nif it fails try to install manually using steps described at :"
-        message_$1;
+        message_"$1";
         echo -e "\n-------------------------------"
-        if ! install_$1 >/dev/null 2>&1; then
+        if ! install_"$1" >/dev/null 2>&1; then
             echo "There was an issue while installing $1"
             exit 1
         else
