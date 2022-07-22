@@ -6,5 +6,6 @@ RUN npm i newman -g
 
 RUN useradd -m cicd
 USER cicd
+WORKDIR /home/cicd
 
 CMD [ "/bin/bash" ]
